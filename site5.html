@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My cool website</title>
+	<link rel="stylesheet" href="reset.css">
+	<script type="text/javascript">
+		var count = 0;
+		var forwards = true;
+		function gradient() {
+			/*if (forwards) {
+				count += 5;
+			} else {
+				count -= 5;
+			}
+			if (count == 360) {
+				forwards = false;
+			} else if (count == 0) {
+				forwards = true;
+			}*/
+			if (count == 359) {
+				count = 0;
+			}
+			count++;
+			var line = "linear-gradient(" + count + "deg, rgba(83,83,83,1) 0%,rgba(255,255,255,0) 100%)";
+			console.log(line);
+			document.body.style.background = line;
+		}
+		
+		var x = -5;
+		var y = 5;
+		function shadows() {
+			if (y == 5 && x > -5) {
+				x--;
+			} else if (x == -5 && y > -5) {
+				y--;
+			} else if (y == -5 && x < 5) {
+				x++;
+			} else {
+				y++;
+			}
+			var line = x + "px " + y + "px rgb(50, 50, 50)";
+			document.getElementsByTagName("h1")[0].style.textShadow = line;
+		}
+		
+		window.onload = function() {
+			//setInterval("gradient()", 20);
+			//setInterval("shadows()", 178);
+			
+		}
+		var volume = 0;
+		var difficulty = 1;
+		function newShadows() {
+			var e = window.event;
+
+			var mouseX = e.clientX;
+			var mouseY = e.clientY;
+			
+			var windowX = window.innerWidth / 2;
+			var windowY = window.innerHeight / 2;
+			
+			var angleDeg = Math.atan2(windowY - mouseY, windowX - mouseX) * 180 / Math.PI - 90;
+			if (angleDeg < 0) angleDeg += 360;
+			//var volume = Math.floor(angleDeg/360*101);
+			volume+=.2;
+			if (volume > 100) volume = 100;
+			document.getElementsByTagName("h2")[0].innerHTML = "<br><br>Volume: " + Math.floor(volume) + "%";
+			document.getElementById("progressBar").style.width = volume + "%";;
+			//console.log(angleDeg);
+			
+			var r=0, g=0, b=0;
+			
+			//red
+			if (angleDeg >= 300 || angleDeg <= 180) {
+				r = angleDeg + 60;
+				if (r >=360) r-= 360;
+				
+				if (r > 120) {
+					r-=120;
+					r = Math.floor((r*-1)/120*255+255);
+				} else {
+					r = Math.floor(r/120*255);
+				}
+				//console.log(r);
+			} else {
+				r=0;
+			}
+			
+			//var antiR = r < 128 ? 128 + r : 255 - r;
+			var antiR = 255 - r;
+			
+			if (angleDeg >= 180 || angleDeg <= 60) {
+				g = (angleDeg + 180);
+				if (g >=360) g-= 360;
+				if (g > 120) {
+					g-=120;
+					g = Math.floor((g*-1)/120*255+255);
+				} else {
+					g = Math.floor(g/120*255);
+				}
+				//console.log(g);
+			} else {
+				g = 0;
+			}
+			
+			//var antiG = g < 128 ? 128 + g : 255 - g;
+			var antiG = 255 - g;
+			
+			//blue
+			if (angleDeg >= 60 && angleDeg <= 300) {
+				b = (angleDeg - 60);
+				if (b > 120) {
+					b-=120;
+					b = Math.floor((b*-1)/120*255+255);
+				} else {
+					b = Math.floor(b/120*255);
+				}
+				//console.log(b);
+			} else {
+				b = 0;
+			}
+			
+			//var antiB = b < 128 ? 128 + b : 255 - b;
+			var antiB = 255 - b;
+			
+			var distance = Math.sqrt(Math.pow(mouseX - windowX, 2) + Math.pow(mouseY - windowY, 2));
+			var percentage = distance / window.innerHeight * 100;
+			//console.log(distance);
+			
+			//var line = "linear-gradient(" + angleDeg + "deg, rgba(83,83,83,1) " + percentage + "%,rgba(83,83,83,0) 100%)";
+			var line = "linear-gradient(" + angleDeg + "deg, rgba(" + r + "," + g + "," + b + ",1) 0%,rgba(255,255,255,1) 100%)";
+			//console.log(line);
+			document.body.style.background = line;
+			const shadowLength = 6;
+			var shadowx = (windowX - mouseX) / windowX * shadowLength;
+			var shadowy = (windowY - mouseY) / windowY * shadowLength;
+			var line2 = shadowx + "px " + shadowy + "px rgb(50, 50, 50)";
+			//console.log(line);
+			document.getElementsByTagName("h1")[0].style.color = "rgb(" + antiR + "," + antiG + "," + antiB + ")";
+			document.getElementById("progressBar").style.backgroundColor = "rgb(" + antiR + "," + antiG + "," + antiB + ")";
+			
+			//console.log("rgb(" + antiR + "," + antiG + "," + antiB + ")");
+			document.getElementsByTagName("h1")[0].style.textShadow = line2;
+			document.getElementsByTagName("h2")[0].style.textShadow = line2;
+			//document.getElementsByClassName("img")[0].style.boxShadow = line2;
+		}
+		
+		window.onmousemove = function() {
+			newShadows();
+		}
+		
+		const minute = 60;
+		const hour = minute * 60;
+		const day = hour * 24;
+		//const week = day * 7;
+		
+		function getTime() {
+			var today = new Date();
+			
+			var then = new Date("June 5, 2019 00:00:00");
+			
+			var between = (then - today) / 1000;
+			var timeBetween = between > 0;
+			
+			/*var weeks = Math.floor(between / week) + "w";
+			between = between % week;*/
+			
+			var days = Math.floor(between / day);
+			between = between % day;
+			
+			var hours = Math.floor(between / hour);
+			var hoursDisplay = hours > 9 ? "" + hours : "0" + hours;
+			between = between % hour;
+			
+			var minutes = Math.floor(between / minute);
+			var minutesDisplay = minutes > 9 ? "" + minutes : "0" + minutes;
+			between = Math.floor(between % minute);
+			
+			var secondsDisplay = between > 9 ? "" + between : "0" + between;
+			
+			var display = "";
+			var colon = ":";
+			
+			if (document.getElementById("title").innerHTML.includes(":")) colon = " ";
+			
+			if (timeBetween) {
+				display = "<br> until " + then.toDateString();
+				if (days > 0) {
+					display = " " + days + " days" + display;
+				} else if (hours > 0) {
+					display = " " + hoursDisplay + colon + minutesDisplay + colon + secondsDisplay + display;
+				} else if (minutes > 0) {
+					display = "<br>" + minutesDisplay + colon + secondsDisplay + display;
+				}
+			} else {
+				display = "Timer done!";
+			}
+			
+			
+			//var display = /*weeks + ", " +*/ days + "<br>" + hours + "<br>" + minutes + "<br>" + between;
+			//display += "<br> until " + then.toDateString();
+			document.getElementById("title").innerHTML = display;
+		}
+		
+		function setDifficulty(diff) {
+			difficulty = diff;
+		}
+		
+		window.onload = function() {
+			getTime();
+			setInterval("getTime()", 1000);
+			setInterval(function() {
+				if (volume > 0) volume-=.2*(volume*.1*difficulty);
+				if (volume < 0) volume = 0;
+				document.getElementsByTagName("h2")[0].innerHTML = "<br><br>Volume: " + Math.floor(volume) + "%";
+				document.getElementById("progressBar").style.width = volume + "%";
+			}, 100);
+			document.getElementById("easy").onclick = function() {
+				setDifficulty(.5);
+			}
+			document.getElementById("medium").onclick = function() {
+				setDifficulty(1);
+			}
+			document.getElementById("hard").onclick = function() {
+				setDifficulty(1.5);
+			}
+		}
+	</script>
+	<style>
+		h1 {
+			display: block;
+			font-family: "Century Gothic", Trebuchet, Verdana, Tahoma;
+			font-size: 300%;
+			//color: #9DD9D2;
+			color: rgb(230, 230, 230);
+			//color: rgb(150, 150, 150);
+			text-align: center;
+			//text-shadow: 3px 3px #5EC2B7;
+			text-shadow: 5px 5px rgb(50, 50, 50);
+			user-select: none;
+		}
+		h2 {
+			display: block;
+			font-family: "Century Gothic", Trebuchet, Verdana, Tahoma;
+			font-size: 200%;
+			color: rgb(230, 230, 230);
+			text-align: center;
+			text-shadow: 5px 5px rgb(50, 50, 50);
+			user-select: none;
+		}
+		#progress{
+			display: block;
+			user-select: none;
+			margin: 0 auto;
+		}
+		html, body {
+			//background-color: #2CA6A4;
+			//background-color: white;
+			background: linear-gradient(315deg, rgba(83,83,83,1) 0%,rgba(255,255,255,0) 100%);
+			height: 100%;
+			cursor: crosshair;
+		}
+		#container {
+			position: absolute;
+			top: 30%;
+			width: 100%;
+			height:70%;
+		}
+		#progressBarContainer {
+			margin: 0 auto;
+			width: 300px;
+			height: 30px;
+			border: 1px black solid;
+			border-radius:10px;
+		}
+
+		#progressBar {
+			margin: 0 auto;
+			border-radius:10px;
+			height: 100%;
+		}
+		ul {
+			position:absolute;
+			top: 90%;
+			text-align: center;
+			user-select: none;
+			left: 45%;
+		}
+
+		ul li {
+			display: inline-block;
+			padding: 5px;
+			user-select: none;
+		}
+		ul li img {
+			height: 50px;
+			width: 50px;
+			cursor: pointer;
+			animation: out .25s 1 linear;
+			border-radius: 10px;
+			box-shadow: 5px 5px rgb(50, 50, 50);
+		}
+		ul li img:hover {
+			animation: in .25s 2 linear;
+		}
+
+		@keyframes in {
+			from {transform: rotate(0deg);}
+			to   {transform: rotate(359deg);}
+		}
+		
+		@keyframes out {
+			from {transform: rotate(359deg);}
+			to   {transform: rotate(0deg);}
+		}
+		
+		li:focus {outline:0;}
+
+	</style>
+</head>
+<body>
+	<div id="container">
+		<h1 id="title">time.</h1>
+		<h2><br><br>Volume: 0%</h2>
+		<br>
+		<div id="progressBarContainer">
+			<div id="progressBar"></div>
+		</div>
+		<ul>
+			<li tabindex="-1" id="easy"><img class="imgLinks" src="e.png"/></li>
+			<li tabindex="-1" id="medium"><img class="imgLinks" src="m.png"/></li>
+			<li tabindex="-1" id="hard"><img class="imgLinks" src="h.png"/></li>
+		</ul>
+	</div>
+</body>
+<footer>
+
+</footer>
+</html>
