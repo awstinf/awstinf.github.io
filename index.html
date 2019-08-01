@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>My cool website</title>
-	<link rel="stylesheet" href="reset.css">
+	<title>Epic Game Time</title>
 	<script type="text/javascript">
 		var count = 0;
 		var forwards = true;
@@ -42,11 +41,6 @@
 			document.getElementsByTagName("h1")[0].style.textShadow = line;
 		}
 		
-		window.onload = function() {
-			//setInterval("gradient()", 20);
-			//setInterval("shadows()", 178);
-			
-		}
 		var volume = 0;
 		var difficulty = 1;
 		function newShadows() {
@@ -153,10 +147,12 @@
 		const day = hour * 24;
 		//const week = day * 7;
 		
+		
+		
 		function getTime() {
 			var today = new Date();
 			
-			var then = new Date("June 5, 2019 00:00:00");
+			var then = new Date("December 25, 2019 00:00:00");
 			
 			var between = (then - today) / 1000;
 			var timeBetween = between > 0;
@@ -205,6 +201,8 @@
 			difficulty = diff;
 		}
 		
+		var audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3');
+		
 		window.onload = function() {
 			getTime();
 			setInterval("getTime()", 1000);
@@ -213,19 +211,68 @@
 				if (volume < 0) volume = 0;
 				document.getElementsByTagName("h2")[0].innerHTML = "<br><br>Volume: " + Math.floor(volume) + "%";
 				document.getElementById("progressBar").style.width = volume + "%";
+				audio.volume = volume / 100.0;
+				if (volume <= 1) {
+					audio.pause();
+				} else {
+					audio.play();
+				}
 			}, 100);
 			document.getElementById("easy").onclick = function() {
-				setDifficulty(.5);
+				setDifficulty(.75);
+				audio.play();
 			}
 			document.getElementById("medium").onclick = function() {
-				setDifficulty(1);
+				setDifficulty(1.25);
+				audio.play();
 			}
 			document.getElementById("hard").onclick = function() {
-				setDifficulty(1.5);
+				setDifficulty(1.75);
+				audio.play();
 			}
 		}
 	</script>
 	<style>
+		html, body, div, span, applet, object, iframe,
+		h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+		a, abbr, acronym, address, big, cite, code,
+		del, dfn, em, img, ins, kbd, q, s, samp,
+		small, strike, strong, sub, sup, tt, var,
+		b, u, i, center,
+		dl, dt, dd, ol, ul, li,
+		fieldset, form, label, legend,
+		table, caption, tbody, tfoot, thead, tr, th, td,
+		article, aside, canvas, details, embed, 
+		figure, figcaption, footer, header, hgroup, 
+		menu, nav, output, ruby, section, summary,
+		time, mark, audio, video {
+			margin: 0;
+			padding: 0;
+			border: 0;
+			vertical-align: baseline;
+		}
+		article, aside, details, figcaption, figure, 
+		footer, header, hgroup, menu, nav, section {
+			display: block;
+		}
+		body {
+			line-height: 1;
+		}
+		ol, ul {
+			list-style: none;
+		}
+		blockquote, q {
+			quotes: none;
+		}
+		blockquote:before, blockquote:after,
+		q:before, q:after {
+			content: '';
+			content: none;
+		}
+		table {
+			border-collapse: collapse;
+			border-spacing: 0;
+		}
 		h1 {
 			display: block;
 			font-family: "Century Gothic", Trebuchet, Verdana, Tahoma;
