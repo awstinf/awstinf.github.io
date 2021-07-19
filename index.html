@@ -152,7 +152,9 @@
 		function getTime() {
 			var today = new Date();
 			
-			var then = new Date("December 25, 2021 00:00:00");
+			var then = new Date();
+			then.setDate(25);
+			then.setMonth(11);
 			
 			var between = (then - today) / 1000;
 			var timeBetween = between > 0;
