@@ -183,7 +183,10 @@
 			
 			if (timeBetween) {
 				display = "<br> until " + then.toDateString();
-				if (days > 0) {
+				
+				if (weeks > 0) {
+					display = " " + weeks + ", " + days + " days" + display;
+				} else if (days > 0) {
 					display = " " + days + " days" + display;
 				} else if (hours > 0) {
 					display = " " + hoursDisplay + colon + minutesDisplay + colon + secondsDisplay + display;
