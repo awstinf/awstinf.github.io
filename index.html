@@ -160,11 +160,11 @@
 			var between = (then - today) / 1000;
 			var timeBetween = between > 0;
 			
-			/*var weeks = Math.floor(between / week) + "w";
-			between = between % week;*/
+			var weeks = Math.floor(between / week) + "w";
+			between = between % week;
 			
-			/*var days = Math.floor(between / day);
-			between = between % day;*/
+			var days = Math.floor(between / day);
+			between = between % day;
 			
 			var hours = Math.floor(between / hour);
 			var hoursDisplay = hours > 9 ? "" + hours : "0" + hours;
