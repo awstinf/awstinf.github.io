@@ -171,7 +171,8 @@
 			var daysDisplay = days > 1 ? " days" : " day";
 			between = between % day;
 			
-			var hours = Math.floor(between / hour);
+			//var hours = Math.floor(between / hour);
+			var hours = 23 - today.getHours();
 			var hoursDisplay = hours > 9 ? "" + hours : "0" + hours;
 			between = between % hour;
 			
