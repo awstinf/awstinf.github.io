@@ -153,17 +153,22 @@
 			var today = new Date();
 			
 			var then = new Date();
+			then.setSeconds(0);
+			then.setMinutes(0);
+			then.setHours(0);
 			then.setDate(25);
 			then.setMonth(11);
-                        then.setFullYear(2022);
+            then.setFullYear(today.getFullYear());
 			
 			var between = (then - today) / 1000;
 			var timeBetween = between > 0;
 			
-			var weeks = Math.floor(between / week) + "w";
+			var weeks = Math.floor(between / week);
+			var weeksDisplay = weeks > 1 ? " weeks," : " week,";
 			between = between % week;
 			
 			var days = Math.floor(between / day);
+			var daysDisplay = days > 1 ? " days" : " day";
 			between = between % day;
 			
 			var hours = Math.floor(between / hour);
@@ -178,20 +183,23 @@
 			
 			var display = "";
 			var colon = ":";
+
+			//console.log(hours);
+			//console.log(minutes);
+			//console.log(secondsDisplay);
 			
 			if (document.getElementById("title").innerHTML.includes(":")) colon = " ";
 			
 			if (timeBetween) {
 				display = "<br> until " + then.toDateString();
 				
+				display = "<br>" + hoursDisplay + colon + minutesDisplay + colon + secondsDisplay + display;
+				
+				if (days > 0) {
+					display = days + daysDisplay + display;
+				}
 				if (weeks > 0) {
-					display = " " + weeks + ", " + days + " days" + display;
-				} else if (days > 0) {
-					display = " " + days + " days" + display;
-				} else if (hours > 0) {
-					display = " " + hoursDisplay + colon + minutesDisplay + colon + secondsDisplay + display;
-				} else if (minutes > 0) {
-					display = "<br>" + minutesDisplay + colon + secondsDisplay + display;
+					display = weeks + weeksDisplay + display;
 				}
 			} else {
 				display = "Timer done!";
